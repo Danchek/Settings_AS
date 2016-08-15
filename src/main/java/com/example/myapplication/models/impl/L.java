@@ -14,7 +14,7 @@ public class L implements Shape {
     int fRow = 0, fColumn=0;
     @Override
     public int create(int[][] pole) {
-        if (pole[0][3] == 0 && pole[0][4] == 0 && pole[0][5] == 0 && pole[0][6] == 0) {
+        if (pole[1][3] == 0 && pole[1][4] == 0 && pole[1][5] == 0 && pole[0][5] == 0) {
             pole[0][5] = vid;
             pole[1][3] = vid;
             pole[1][4] = vid;
@@ -50,8 +50,8 @@ public class L implements Shape {
                 }
                 if (pole[fRow + 3][fColumn] == 0 && pole[fRow + 3][fColumn + 1] == 0) {
                     pole[fRow][fColumn] = 0;
-                    pole[fRow+2][fColumn+1] = 0;
-                    pole[fRow + 3][fColumn] = vid;
+                    pole[fRow][fColumn+1] = 0;
+                    pole[fRow + 1][fColumn] = vid;
                     pole[fRow + 3][fColumn+1] = vid;
                     flag = true;
                 }
@@ -65,8 +65,8 @@ public class L implements Shape {
                     pole[fRow][fColumn + 1] = 0;
                     pole[fRow][fColumn + 2] = 0;
                     pole[fRow + 2][fColumn] = vid;
-                    pole[fRow + 2][fColumn + 1] = vid;
-                    pole[fRow + 2][fColumn + 2] = vid;
+                    pole[fRow + 1][fColumn + 1] = vid;
+                    pole[fRow + 1][fColumn + 2] = vid;
                     flag = true;
                 }
                 break;
@@ -74,10 +74,10 @@ public class L implements Shape {
                 if (fRow == 17) {
                     return false;
                 }
-                if (pole[fRow + 1][fColumn] == 0 && pole[fRow + 3][fColumn + 1] == 0) {
+                if (pole[fRow + 3][fColumn] == 0 && pole[fRow + 3][fColumn + 1] == 0) {
                     pole[fRow][fColumn] = 0;
                     pole[fRow][fColumn+1] = 0;
-                    pole[fRow + 1][fColumn] = vid;
+                    pole[fRow + 3][fColumn] = vid;
                     pole[fRow + 3][fColumn+1] = vid;
                     flag = true;
                 }
@@ -194,32 +194,146 @@ public class L implements Shape {
 
     @Override
     public int turnLeft(int[][] pole, int currentState) {
+        identFirstBlock(pole);
+        int flag=0;
         switch (currentState){
             case 0:
+                if (pole[fRow][fColumn-1]==0 && pole[fRow][fColumn-2]==0 && pole[fRow+2][fColumn-1]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow+1][fColumn] = 0;
+                    pole[fRow+1][fColumn-2] = 0;
+                    pole[fRow][fColumn-1] = vid;
+                    pole[fRow][fColumn-2] = vid;
+                    pole[fRow+2][fColumn-1] = vid;
+                    flag=3;
+                }
                 break;
             case 1:
+                if (fColumn==0){
+                    if (pole[fRow+1][fColumn+1]==0 && pole[fRow][fColumn+2]==0 && pole[fRow+1][fColumn+2]==0) {
+                        pole[fRow][fColumn] = 0;
+                        pole[fRow + 2][fColumn] = 0;
+                        pole[fRow + 2][fColumn + 1] = 0;
+                        pole[fRow + 1][fColumn + 1] = vid;
+                        pole[fRow][fColumn + 2] = vid;
+                        pole[fRow + 1][fColumn + 2] = vid;
+                        flag = 0;
+                    }
+                }
+                else if (pole[fRow+1][fColumn-1]==0 && pole[fRow][fColumn+1]==0 && pole[fRow+1][fColumn+1]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow+2][fColumn] = 0;
+                    pole[fRow+2][fColumn+1] = 0;
+                    pole[fRow+1][fColumn-1] = vid;
+                    pole[fRow][fColumn+1] = vid;
+                    pole[fRow+1][fColumn+1] = vid;
+                    flag=0;
+                }
                 break;
             case 2:
+                if (pole[fRow-1][fColumn+1]==0 && pole[fRow+1][fColumn+1]==0 && pole[fRow+1][fColumn+2]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow+1][fColumn] = 0;
+                    pole[fRow][fColumn+2] = 0;
+                    pole[fRow-1][fColumn+1] = vid;
+                    pole[fRow+1][fColumn+1] = vid;
+                    pole[fRow+1][fColumn+2] = vid;
+                    flag=1;
+                }
                 break;
             case 3:
+                if (fColumn==8){
+                    if (pole[fRow+1][fColumn]==0 && pole[fRow+1][fColumn-1]==0 && pole[fRow+2][fColumn-1]==0) {
+                        pole[fRow][fColumn] = 0;
+                        pole[fRow + 2][fColumn + 1] = 0;
+                        pole[fRow][fColumn + 1] = 0;
+                        pole[fRow + 1][fColumn] = vid;
+                        pole[fRow + 1][fColumn - 1] = vid;
+                        pole[fRow + 2][fColumn - 1] = vid;
+                        flag = 2;
+                    }
+                }
+                else if (pole[fRow+1][fColumn]==0 && pole[fRow+2][fColumn]==0 && pole[fRow+1][fColumn+2]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow][fColumn+1] = 0;
+                    pole[fRow+2][fColumn+1] = 0;
+                    pole[fRow+1][fColumn] = vid;
+                    pole[fRow+2][fColumn] = vid;
+                    pole[fRow+1][fColumn+2] = vid;
+                    flag=2;
+                }
                 break;
         }
-        return 0;
+        return flag;
     }
 
     @Override
     public int turnRight(int[][] pole, int currentState) {
+        identFirstBlock(pole);
+        int flag=0;
         switch (currentState){
             case 0:
+                if (pole[fRow][fColumn-1]==0 && pole[fRow+2][fColumn-1]==0 && pole[fRow+2][fColumn]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow+1][fColumn] = 0;
+                    pole[fRow+1][fColumn-2] = 0;
+                    pole[fRow][fColumn-1] = vid;
+                    pole[fRow+2][fColumn-1] = vid;
+                    pole[fRow+2][fColumn] = vid;
+                    flag=1;
+                }
                 break;
             case 1:
+                if (fColumn==0){
+                    if (pole[fRow+1][fColumn+1]==0 && pole[fRow+1][fColumn+2]==0) {
+                        pole[fRow][fColumn] = 0;
+                        pole[fRow + 2][fColumn + 1] = 0;
+                        pole[fRow + 1][fColumn + 1] = vid;
+                        pole[fRow + 1][fColumn + 2] = vid;
+                        flag = 2;
+                    }
+                }
+                else if (pole[fRow+1][fColumn-1]==0 && pole[fRow+1][fColumn+1]==0 && pole[fRow+2][fColumn-1]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow+2][fColumn] = 0;
+                    pole[fRow+2][fColumn+1] = 0;
+                    pole[fRow+1][fColumn-1] = vid;
+                    pole[fRow+1][fColumn+1] = vid;
+                    pole[fRow+2][fColumn-1] = vid;
+                    flag=2;
+                }
                 break;
             case 2:
+                if (pole[fRow-1][fColumn]==0 && pole[fRow-1][fColumn+1]==0 && pole[fRow+1][fColumn+1]==0){
+                    pole[fRow][fColumn] = 0;
+                    pole[fRow+1][fColumn] = 0;
+                    pole[fRow][fColumn+2] = 0;
+                    pole[fRow-1][fColumn] = vid;
+                    pole[fRow-1][fColumn+1] = vid;
+                    pole[fRow+1][fColumn+1] = vid;
+                    flag=3;
+                }
                 break;
             case 3:
+                if (fColumn==8){
+                    if (pole[fRow+1][fColumn]==0 && pole[fRow+1][fColumn-1]==0) {
+                        pole[fRow][fColumn] = 0;
+                        pole[fRow + 2][fColumn + 1] = 0;
+                        pole[fRow + 1][fColumn] = vid;
+                        pole[fRow + 1][fColumn - 1] = vid;
+                        flag = 0;
+                    }
+                }
+                else if (pole[fRow+1][fColumn]==0 && pole[fRow+1][fColumn+2]==0){
+                    pole[fRow][fColumn+1] = 0;
+                    pole[fRow+2][fColumn+1] = 0;
+                    pole[fRow+1][fColumn] = vid;
+                    pole[fRow+1][fColumn+2] = vid;
+                    flag=0;
+                }
                 break;
         }
-        return 0;
+        return flag;
     }
 
     @Override

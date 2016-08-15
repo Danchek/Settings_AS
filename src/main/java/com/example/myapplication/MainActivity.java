@@ -16,6 +16,7 @@ import com.example.myapplication.constants.Constants;
 
 import com.example.myapplication.models.Shape;
 import com.example.myapplication.models.impl.Kvadrat;
+import com.example.myapplication.models.impl.L;
 import com.example.myapplication.models.impl.Liniya;
 
 
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 boolean flag=true;
                 //Service service = new ServiceImpl(new TreugolnikDAOFactoryCreateImpl());
-                shape = new Liniya();
+                shape = new L();
                 currentState = shape.create(pole);
                 int count=0;
                 backgr(currentState);
