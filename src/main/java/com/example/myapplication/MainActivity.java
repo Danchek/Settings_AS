@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Constants con = new Constants();
     ImageButton buttonR, buttonU,buttonL,buttonD, buttonB;
     Shape shape;
-    Vector vector = new Vector(1);
+    //Vector vector = new Vector(1);
 
 
     @Override
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         int numberFields=0;
         pole= new int[con.ROW][con.COLUMN];
-        vector.add(pole);
+        //vector.add(pole);
         //Log.d(TAG, "MainActivityCreate");
         tableLayout = (TableLayout)findViewById(R.id.TableLayout);
         tableRows = new TableRow[con.ROW];

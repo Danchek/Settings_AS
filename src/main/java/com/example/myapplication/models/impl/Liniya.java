@@ -37,14 +37,14 @@ public class Liniya implements Shape {
                     return false;
                 }
                 if (pole[fRow + 1][fColumn] == 0 && pole[fRow + 1][fColumn + 1] == 0 && pole[fRow + 1][fColumn + 2] == 0 && pole[fRow + 1][fColumn + 3] == 0) {
-                    pole[fRow + 1][fColumn] = con.LIN;
-                    pole[fRow + 1][fColumn + 1] = con.LIN;
-                    pole[fRow + 1][fColumn + 2] = con.LIN;
-                    pole[fRow + 1][fColumn + 3] = con.LIN;
                     pole[fRow][fColumn] = 0;
                     pole[fRow][fColumn + 1] = 0;
                     pole[fRow][fColumn + 2] = 0;
                     pole[fRow][fColumn + 3] = 0;
+                    pole[fRow + 1][fColumn] = con.LIN;
+                    pole[fRow + 1][fColumn + 1] = con.LIN;
+                    pole[fRow + 1][fColumn + 2] = con.LIN;
+                    pole[fRow + 1][fColumn + 3] = con.LIN;
                     flag = true;
                 }
                 break;
@@ -62,7 +62,6 @@ public class Liniya implements Shape {
         return flag;
 
     }
-//TODO доделать метод
     @Override
     public boolean left(int[][] pole, int currentState) {
         identFirstBlock(pole);
@@ -71,22 +70,22 @@ public class Liniya implements Shape {
             case 0:
                 if (fColumn==0){return false;}
                 if (pole[fRow][fColumn-1]==0){
-                    pole[fRow][fColumn-1]=con.LIN;
                     pole[fRow][fColumn+3]=0;
+                    pole[fRow][fColumn-1]=con.LIN;
                     flag=true;
                 }
                 break;
             case 1:
                 if (fColumn==0){return false;}
-                if(pole[fColumn-1][fRow]==0 && pole[fColumn-1][fRow+1]==0 && pole[fColumn-1][fRow+2]==0 && pole[fColumn-1][fRow+3]==0){
-                    pole[fColumn][fRow]=0;
-                    pole[fColumn][fRow+1]=0;
-                    pole[fColumn][fRow+2]=0;
-                    pole[fColumn][fRow+3]=0;
-                    pole[fColumn-1][fRow]=con.LIN;
-                    pole[fColumn-1][fRow+1]=con.LIN;
-                    pole[fColumn-1][fRow+2]=con.LIN;
-                    pole[fColumn-1][fRow+3]=con.LIN;
+                if(pole[fRow][fColumn-1]==0 && pole[fRow+1][fColumn-1]==0 && pole[fRow+2][fColumn-1]==0 && pole[fRow+3][fColumn-1]==0){
+                    pole[fRow][fColumn]=0;
+                    pole[fRow+1][fColumn]=0;
+                    pole[fRow+2][fColumn]=0;
+                    pole[fRow+3][fColumn]=0;
+                    pole[fRow][fColumn-1]=con.LIN;
+                    pole[fRow+1][fColumn-1]=con.LIN;
+                    pole[fRow+2][fColumn-1]=con.LIN;
+                    pole[fRow+3][fColumn-1]=con.LIN;
                     flag = true;
                 }
                 break;
@@ -98,6 +97,7 @@ public class Liniya implements Shape {
     public boolean right(int[][] pole, int currentState) {
         identFirstBlock(pole);
         boolean flag=false;
+        Log.d(TAG, "currentState="+currentState);
         switch (currentState){
             case 0:
                 if (fColumn==6){return false;}
@@ -109,15 +109,16 @@ public class Liniya implements Shape {
                 break;
             case 1:
                 if (fColumn==9){return false;}
-                if(pole[fColumn+1][fRow]==0 && pole[fColumn+1][fRow+1]==0 && pole[fColumn+1][fRow+2]==0 && pole[fColumn+1][fRow+3]==0){
-                    pole[fColumn][fRow]=0;
-                    pole[fColumn][fRow+1]=0;
-                    pole[fColumn][fRow+2]=0;
-                    pole[fColumn][fRow+3]=0;
-                    pole[fColumn+1][fRow]=con.LIN;
-                    pole[fColumn+1][fRow+1]=con.LIN;
-                    pole[fColumn+1][fRow+2]=con.LIN;
-                    pole[fColumn+1][fRow+3]=con.LIN;
+                Log.d(TAG, "fColumn= "+fColumn+" fRow= "+fRow);
+                if(pole[fRow][fColumn+1]==0 && pole[fRow+1][fColumn+1]==0 && pole[fRow+2][fColumn+1]==0 && pole[fRow+3][fColumn+1]==0){
+                    pole[fRow][fColumn]=0;
+                    pole[fRow+1][fColumn]=0;
+                    pole[fRow+2][fColumn]=0;
+                    pole[fRow+3][fColumn]=0;
+                    pole[fRow][fColumn+1]=con.LIN;
+                    pole[fRow+1][fColumn+1]=con.LIN;
+                    pole[fRow+2][fColumn+1]=con.LIN;
+                    pole[fRow+3][fColumn+1]=con.LIN;
                     flag = true;
                 }
                 break;
@@ -132,24 +133,61 @@ public class Liniya implements Shape {
         switch (currentState){
             case 0:
                 if (pole[fRow-2][fColumn+1]==0 && pole[fRow-1][fColumn+1]==0 && pole[fRow-3][fColumn+1]==0){
-                    pole[fRow-2][fColumn+1]=con.LIN;
-                    pole[fRow-1][fColumn+1]=con.LIN;
-                    pole[fRow-3][fColumn+1]=con.LIN;
                     pole[fRow][fColumn]=0;
                     pole[fRow][fColumn+2]=0;
                     pole[fRow][fColumn+3]=0;
+                    pole[fRow-2][fColumn+1]=con.LIN;
+                    pole[fRow-1][fColumn+1]=con.LIN;
+                    pole[fRow-3][fColumn+1]=con.LIN;
                     flag = 1;
                 }
                 break;
             case 1:
-                if (pole[fRow+3][fColumn-1]==0 && pole[fRow+3][fColumn+1]==0 && pole[fRow+3][fColumn+2]==0){
-                    pole[fRow][fColumn]=0;
-                    pole[fRow+1][fColumn]=0;
-                    pole[fRow+2][fColumn]=0;
-                    pole[fRow+3][fColumn-1]=con.LIN;
-                    pole[fRow+3][fColumn+1]=con.LIN;
-                    pole[fRow+3][fColumn+2]=con.LIN;
-                    flag = 0;
+                switch (fColumn) {
+                    case 9:
+                        if (pole[fRow + 3][fColumn-1] == 0 && pole[fRow + 3][fColumn-2] == 0 && pole[fRow + 3][fColumn -3] == 0) {
+                            pole[fRow][fColumn] = 0;
+                            pole[fRow + 1][fColumn] = 0;
+                            pole[fRow + 2][fColumn] = 0;
+                            pole[fRow + 3][fColumn-1] = con.LIN;
+                            pole[fRow + 3][fColumn-2] = con.LIN;
+                            pole[fRow + 3][fColumn-3] = con.LIN;
+                            flag = 0;
+                        }
+                        break;
+                    case 8:
+                        if (pole[fRow + 3][fColumn-1] == 0 && pole[fRow + 3][fColumn-2] == 0 && pole[fRow + 3][fColumn+1] == 0) {
+                            pole[fRow][fColumn] = 0;
+                            pole[fRow + 1][fColumn] = 0;
+                            pole[fRow + 2][fColumn] = 0;
+                            pole[fRow + 3][fColumn-1] = con.LIN;
+                            pole[fRow + 3][fColumn-2] = con.LIN;
+                            pole[fRow + 3][fColumn+1] = con.LIN;
+                            flag = 0;
+                        }
+                        break;
+                    case 0:
+                        if (pole[fRow + 3][fColumn+1] == 0 && pole[fRow + 3][fColumn+2] == 0 && pole[fRow + 3][fColumn+3] == 0) {
+                            pole[fRow][fColumn] = 0;
+                            pole[fRow + 1][fColumn] = 0;
+                            pole[fRow + 2][fColumn] = 0;
+                            pole[fRow + 3][fColumn+1] = con.LIN;
+                            pole[fRow + 3][fColumn+2] = con.LIN;
+                            pole[fRow + 3][fColumn+3] = con.LIN;
+                            flag = 0;
+                        }
+                        break;
+                    default:
+                        if (pole[fRow + 3][fColumn - 1] == 0 && pole[fRow + 3][fColumn + 1] == 0 && pole[fRow + 3][fColumn + 2] == 0) {
+                            pole[fRow][fColumn] = 0;
+                            pole[fRow + 1][fColumn] = 0;
+                            pole[fRow + 2][fColumn] = 0;
+                            pole[fRow + 3][fColumn - 1] = con.LIN;
+                            pole[fRow + 3][fColumn + 1] = con.LIN;
+                            pole[fRow + 3][fColumn + 2] = con.LIN;
+                            flag = 0;
+                        }
+                        break;
                 }
                 break;
         }
