@@ -18,6 +18,7 @@ import com.example.myapplication.models.Shape;
 import com.example.myapplication.models.impl.Kvadrat;
 import com.example.myapplication.models.impl.L;
 import com.example.myapplication.models.impl.Liniya;
+import com.example.myapplication.services.Service;
 
 
 import java.util.Vector;
@@ -30,15 +31,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TableLayout tableLayout;
     TableRow []tableRows;
     ImageView []imgNew;
-//    final int ROW=15, COLUMN=8, NUMER_OF_ELEMEMHT=ROW*COLUMN;
     int [][]pole;
-    int currentState;
+    int[] masShapes = new int[5];
+    int currentState, level, speed, points;
     Handler handler;
     Thread thread;
     Constants con = new Constants();
     ImageButton buttonR, buttonU,buttonL,buttonD, buttonB;
     Shape shape;
-    //Vector vector = new Vector(1);
+    Service service = new Service(pole,imgNew);
 
 
     @Override
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-                backgr(msg.what);
+                service.backgr(msg.what);
             }
 
         };
@@ -99,23 +100,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imageButtonDown:
-                shape.down(pole,currentState); backgr(currentState);
+                shape.down(pole,currentState); service.backgr(currentState);
                 Toast.makeText(this,"Down",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButtonLeft:
-                shape.left(pole, currentState); backgr(currentState);
+                shape.left(pole, currentState); service.backgr(currentState);
                 Toast.makeText(this,"Left",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButtonRight:
-                shape.right(pole, currentState); backgr(currentState);
+                shape.right(pole, currentState); service.backgr(currentState);
                 Toast.makeText(this,"Right",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButtonUp:
-                currentState=shape.turnLeft(pole,currentState); backgr(currentState);
+                currentState=shape.turnLeft(pole,currentState); service.backgr(currentState);
                 Toast.makeText(this,"Up",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButtonBig:
-                currentState=shape.turnRight(pole,currentState); backgr(currentState);
+                currentState=shape.turnRight(pole,currentState); service.backgr(currentState);
         }
 
     }
@@ -136,50 +137,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    synchronized void  backgr(int z){
-
-
-        for (int i=0;i<con.ROW;i++)
-            for (int j=0;j<con.COLUMN;j++){
-               // Log.d(TAG, "pole["+i+"]["+j+"] = "+pole[i][j]);
-                switch (pole[i][j]){
-                    case 0: imgNew[j+i*con.COLUMN].setBackgroundResource(R.drawable.gray_middle);
-                        //Log.d(TAG, "00000000000000000000000pole["+i+"]["+j+"] = "+pole[i][j]+" "+(i+j*con.COLUMN));
-                       // imgNew[i+j].jumpDrawablesToCurrentState();
-                        break;
-                    case 1: imgNew[j+i*con.COLUMN].setBackgroundResource(R.drawable.blue_middle);
-                        //Log.d(TAG, "111111111111111111111111pole["+i+"]["+j+"] = "+pole[i][j]+" "+(i+j*con.COLUMN));
-                       // imgNew[i+j].jumpDrawablesToCurrentState();
-                        break;
-                }
-            }
-    }
+//    synchronized void  backgr(int z){
+//
+//
+//        for (int i=0;i<con.ROW;i++)
+//            for (int j=0;j<con.COLUMN;j++){
+//               // Log.d(TAG, "pole["+i+"]["+j+"] = "+pole[i][j]);
+//                switch (pole[i][j]){
+//                    case 0: imgNew[j+i*con.COLUMN].setBackgroundResource(R.drawable.gray_middle);
+//                        //Log.d(TAG, "00000000000000000000000pole["+i+"]["+j+"] = "+pole[i][j]+" "+(i+j*con.COLUMN));
+//                       // imgNew[i+j].jumpDrawablesToCurrentState();
+//                        break;
+//                    case 1: imgNew[j+i*con.COLUMN].setBackgroundResource(R.drawable.blue_middle);
+//                        //Log.d(TAG, "111111111111111111111111pole["+i+"]["+j+"] = "+pole[i][j]+" "+(i+j*con.COLUMN));
+//                       // imgNew[i+j].jumpDrawablesToCurrentState();
+//                        break;
+//                }
+//            }
+//    }
 
     void thread(){
         thread = new Thread(new Runnable() {
+            boolean flag;
+            int count;
             @Override
             public void run() {
-
-                boolean flag=true;
-                //Service service = new ServiceImpl(new TreugolnikDAOFactoryCreateImpl());
-                shape = new L();
-                currentState = shape.create(pole);
-                int count=0;
-                backgr(currentState);
-                //Log.d(TAG, String.valueOf(service.down(pole,currentState)));
-                while (flag){
-                    try {
-                        flag = shape.down(pole,currentState);
-                        if (count==0) backgr(0);
-                        count++;
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        flag = false;
+                while (currentState!=8) {
+                    flag = true;
+                    shape = new L();
+                    currentState = shape.create(pole);
+                    count = 0;
+                    service.backgr(currentState);
+                    if (currentState==8){flag=false;}
+                    while (flag) {
+                        try {
+                            flag = shape.down(pole, currentState);
+                            if (count == 0) service.backgr(0);
+                            count++;
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            flag = false;
+                        }
+                        handler.sendEmptyMessage(currentState);
                     }
-                    handler.sendEmptyMessage(currentState);
+                    service.checkRow();
                 }
-
+                //TODO здесь будет обрабатываться событие проигрыша
             }
         });
         thread.start();
