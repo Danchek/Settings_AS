@@ -314,19 +314,23 @@ public class ObtatnayaL implements Shape {
                 break;
             case 3:
                 if (fColumn==9){
-                    if (pole[fRow+1][fColumn-2]==0 && pole[fRow+2][fColumn-2]==0) {
+                    if (pole[fRow][fColumn-2]==0 && pole[fRow+1][fColumn-2]==0 && pole[fRow+1][fColumn-1]==0) {
                         pole[fRow][fColumn] = 0;
-                        pole[fRow + 1][fColumn] = 0;
-                        pole[fRow + 1][fColumn-2] = vid;
-                        pole[fRow + 2][fColumn - 2] = vid;
+                        pole[fRow + 2][fColumn-1] = 0;
+                        pole[fRow + 2][fColumn] = 0;
+                        pole[fRow][fColumn-2] = vid;
+                        pole[fRow + 1][fColumn - 2] = vid;
+                        pole[fRow + 1][fColumn - 1] = vid;
                         flag = 0;
                     }
                 }
-                else if (pole[fRow+1][fColumn-1]==0 && pole[fRow+2][fColumn+1]==0){
+                else if (pole[fRow][fColumn-1]==0 && pole[fRow+1][fColumn-1]==0 && pole[fRow+1][fColumn+1]==0){
                     pole[fRow][fColumn] = 0;
-                    pole[fRow+1][fColumn] = 0;
-                    pole[fRow+1][fColumn-1] = vid;
-                    pole[fRow+2][fColumn+1] = vid;
+                    pole[fRow+2][fColumn-1] = 0;
+                    pole[fRow+2][fColumn] = 0;
+                    pole[fRow][fColumn-1] = vid;
+                    pole[fRow+1][fColumn+1] = vid;
+                    pole[fRow+1][fColumn+1] = vid;
                     flag=0;
                 }
                 break;

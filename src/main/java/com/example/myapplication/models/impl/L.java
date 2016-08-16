@@ -324,10 +324,12 @@ public class L implements Shape {
                         flag = 0;
                     }
                 }
-                else if (pole[fRow+1][fColumn]==0 && pole[fRow+1][fColumn+2]==0){
+                else if (pole[fRow+1][fColumn]==0 && pole[fRow][fColumn+2]==0 && pole[fRow+1][fColumn+2]==0){
+                    pole[fRow][fColumn] = 0;
                     pole[fRow][fColumn+1] = 0;
                     pole[fRow+2][fColumn+1] = 0;
                     pole[fRow+1][fColumn] = vid;
+                    pole[fRow][fColumn+2] = vid;
                     pole[fRow+1][fColumn+2] = vid;
                     flag=0;
                 }
