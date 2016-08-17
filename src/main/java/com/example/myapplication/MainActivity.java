@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton buttonR, buttonU,buttonL,buttonD, buttonB;
     Shape shape;
     Service service = new Service(pole,imgNew);
-
+    int a =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
