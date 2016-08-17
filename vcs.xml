@@ -6,8 +6,12 @@
           <option name="url" value="https://github.com/Danchek/Tetris.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Danchek/My_App.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="C:\Users\dedo\AndroidStudioProjects" />
+    <option name="cloneParentDir" value="C:\Users\dedo\ASP" />
   </component>
 </application>
